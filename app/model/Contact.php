@@ -57,13 +57,15 @@ class Contact
                 $id = $pdo->lastInsertId();
                 $upload = Upload::uploadFile($id);
                 if($upload == 1){
-                    $headers = 'From: webmaster@example.com' . "\r\n" .
-                    'Reply-To: webmaster@example.com' . "\r\n" .
-                    'X-Mailer: PHP/' . phpversion();
-                    echo mail(EMAIL, 'Contato', $message, $headers);
+                    $dados = 
+                        "Nome:".$name. "<br>".
+                        "Telefone: ".$telefone. "<br>".
+                        "E-mail: ".$email. "<br>".
+                        "Mensagem: ".$message. "<br>".
+                        "IP: " . $this->ip;
+                        
+                    mail(EMAIL, 'Contato', $dados);
 
-
-                    die();
                     $pdo->commit();
                     return $id;
                 }
