@@ -37,10 +37,15 @@ class ContactController
         $contact->file = $this->files['file']['name'];
         $contact->ip = $_SERVER['REMOTE_ADDR'];
 
-        if ($contact->save()) {
+        $response = $contact->save();
+
+        if ($response) {
             header("location: ?action=result&success");
-        }
-        else {
+        } elseif ($response == -1) {
+            header("location: ?action=result&failEmail");
+        } elseif( $response == -2) {
+            header("location: ?action=result&failUpload");
+        } elseif ($response == -3) {
             header("location: ?action=result&fail");
         }
         return null;

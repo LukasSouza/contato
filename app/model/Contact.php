@@ -3,6 +3,7 @@ namespace App\Model;
 
 use App\ConnectionDB;
 use App\Upload;
+use App\Mail;
 
 class Contact
 {
@@ -58,27 +59,37 @@ class Contact
                 $upload = Upload::uploadFile($id);
                 if($upload == 1){
                     $dados = 
+                        "Dados do Contato:<br>".
                         "Nome:".$name. "<br>".
                         "Telefone: ".$telefone. "<br>".
                         "E-mail: ".$email. "<br>".
                         "Mensagem: ".$message. "<br>".
                         "IP: " . $this->ip;
-                        
-                    mail(EMAIL, 'Contato', $dados);
 
-                    $pdo->commit();
-                    return $id;
+                    $mail = new Mail( $email, EMAIL, "Informações do Contato", $dados);
+                    $mail->message = '<p>My HTML message.</p>';
+                    $sendMail = $mail->send();
+                    
+                    // if($sendMail){
+                    //     $pdo->commit();
+                    //     return $id;
+                    // }
+                    // else{
+                    //     $pdo->rollBack();
+                    //     return -1;
+                    // }
                 }
                 else{
                     $pdo->rollBack();
-                    return 0;
+                    return -2;
                 }
             }
             catch (Exception $e){
                 throw $e;
             }
         }
-        return false;
+        else
+            return -3;
     }
 
     private function sanitize($dados)
