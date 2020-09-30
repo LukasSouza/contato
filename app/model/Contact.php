@@ -68,7 +68,7 @@ class Contact
 
                     $mail = new Mail( $email, EMAIL, "Informações do Contato", $dados);
                     $mail->message = '<p>My HTML message.</p>';
-                    $sendMail = $mail->send();
+                    // $sendMail = $mail->send();
                     
                     // if($sendMail){
                          $pdo->commit();
