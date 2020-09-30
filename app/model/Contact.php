@@ -71,7 +71,7 @@ class Contact
                     $sendMail = $mail->send();
                     
                     // if($sendMail){
-                    //     $pdo->commit();
+                         $pdo->commit();
                     //     return $id;
                     // }
                     // else{
